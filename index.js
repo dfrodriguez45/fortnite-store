@@ -43,7 +43,7 @@ fetch(urlShop)
       spanPrice.textContent = item.finalPrice;
       spanPrice.appendChild(vbucksIcon.cloneNode(true));
 
-      // Obtiene nombre e imagen del objeto
+      // Obtener nombre e imagen del objeto
       const listItem = document.createElement("li");
       listItem.textContent = item.items[0].name;
       listItem.classList = item.items[0].rarity.value;

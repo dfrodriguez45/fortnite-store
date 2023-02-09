@@ -8,7 +8,7 @@ const sectionSpecialFeatured = document.getElementById("specialFeatured");
 fetch(urlShop)
   .then((res) => res.json())
   .then((data) => {
-    console.log(data);
+    // console.log(data);
 
     // Fecha de actualización
     dateShop.textContent = new Date(data.data.date).toLocaleString("es-CO", {

@@ -16,7 +16,7 @@
   --color-raro: #00aeff;
   --color-poco-comun: #3acc00;
   --color-comun: #575757;
-  
+
   --lgrad-serie-idols: linear-gradient(180deg, #81ffff, #00acac);
   --lgrad-legendario: linear-gradient(180deg, #ffe75e, #e9c600);
   --lgrad-epico: linear-gradient(180deg, #a95eff, #7700ff);
@@ -25,13 +25,7 @@
   --lgrad-comun: linear-gradient(180deg, #b8b8b8, #575757);
 }
 
-html, body {
-  background: var(--blanco);
-  margin: 0;
-  padding: 0;
-}
-
-h1, h2, h3 {
+* {
   margin: 0;
   padding: 0;
 }
@@ -68,6 +62,7 @@ ul {
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  padding: 1.5rem 0;
   list-style: none;
 }
 

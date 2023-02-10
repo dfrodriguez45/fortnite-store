@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 :root {
+  /* Tipografía */
   font-family: 'Bebas Neue', cursive;
+  font-weight: lighter;
+
+
   /* Colores */
   --blanco: #fff;
   --color-primario: #333333;
   --color-secundario: #0044ff;
+  --color-terciario: #d8386d;
   --color-bg: #99e7ff;
 
 
@@ -48,12 +53,21 @@ header.nav {
 section h2 {
   position: sticky;
   top: 0;
-  left: 0;
   z-index: 40;
   text-align: center;
   background-color: var(--color-secundario);
   color: var(--blanco);
   padding: 1rem;
+}
+
+section h3 {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  text-align: center;
+  background-color: var(--color-terciario);
+  color: var(--blanco);
+  padding: 0.5rem;
 }
 
 ul {
@@ -62,7 +76,7 @@ ul {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  padding: 1.5rem 0;
+  padding: 2rem 0;
   list-style: none;
 }
 

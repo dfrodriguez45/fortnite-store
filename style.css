@@ -62,7 +62,7 @@ section h2 {
 
 section h3 {
   position: sticky;
-  top: 0;
+  top: 60px;
   z-index: 40;
   text-align: center;
   background-color: var(--color-terciario);

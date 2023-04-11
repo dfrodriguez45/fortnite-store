@@ -1,10 +1,13 @@
 import React from 'react'
 import { adaptItemsDailyData } from '../adapters';
 import { getItemsDaily } from '../services';
+interface ShopProviderProps {
+  children: React.ReactNode;
+}
 
 export const ShopContext = React.createContext({} as any)
 
-function ShopProvider({ children }) {
+const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
 
   const [vbucksIcon, setVbucksIcon] = React.useState<string>('');
   const [daily, setDaily] = React.useState<any>([]);

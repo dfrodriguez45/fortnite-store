@@ -14,6 +14,6 @@ export const getItemsDaily = async () => {
 
 export const getItemsFeatured = async () => {
   const response = await getItems();
-  console.log(response.data.featured.entries);
+  // console.log(response.data.featured.entries);
   return response.data.featured.entries.sort((a: any, b: any) => b.section.index - a.section.index);
 };

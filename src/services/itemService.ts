@@ -9,5 +9,6 @@ const getItems = async () => {
 
 export const getItemsDaily = async () => {
   const response = await getItems();
+  console.log(response.data.daily.entries);
   return response.data.daily.entries.sort((a: any, b: any) => b.sortPriority - a.sortPriority);
 };

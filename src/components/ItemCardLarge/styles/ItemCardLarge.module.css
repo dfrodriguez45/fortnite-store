@@ -1,3 +1,3 @@
 .itemcardlarge{
-  @apply bg-gray-800 flex flex-col relative col-span-1 row-span-2 overflow-clip max-w-[330px] hover:scale-[102%] transition-transform;
+  @apply bg-gray-800 flex flex-col relative col-span-1 row-span-2 overflow-clip max-w-[330px] h-full sm:min-h-[448px] hover:scale-[102%] transition-transform;
 }

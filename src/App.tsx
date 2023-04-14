@@ -2,12 +2,17 @@ import React from 'react';
 import { CgSandClock } from "react-icons/cg";
 
 import './App.css';
-import { DailyShop, LoadingShop } from './components';
+import { DailyShop, FeaturedShop, LoadingShop } from './components';
 import { ShopContext } from './context';
 
 function App() {
 
-  const { daily, loading, remainingTime } = React.useContext(ShopContext);
+  const {
+    daily,
+    featured,
+    loading,
+    remainingTime
+  } = React.useContext(ShopContext);
 
   return (
     <div className={`flex flex-col items-center ${loading && 'overflow-hidden h-screen'}`}>
@@ -15,7 +20,12 @@ function App() {
       <h2 className='text-2xl'>Próximo cambio de tienda</h2>
       {loading ? <div className='flex-1 animate-pulse bg-gray-700 rounded-full w-60 py-4' /> : <h3 className='text-2xl'> <CgSandClock className='inline-block animate-spin-slow' />  {remainingTime}</h3>}
       <div className='flex flex-col items-center flex-1 p-5 gap-5 w-full'>
-      {loading ? <LoadingShop /> : <DailyShop data={daily} />}
+        {loading ? <LoadingShop /> : (
+          <>
+            <DailyShop data={daily} />
+            <FeaturedShop data={featured} />
+          </>
+        )}
       </div>
     </div>
   )

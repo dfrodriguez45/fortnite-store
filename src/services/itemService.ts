@@ -11,9 +11,3 @@ export const getItemsDaily = async () => {
   const response = await getItems();
   return response.data.daily.entries.sort((a: any, b: any) => b.sortPriority - a.sortPriority);
 };
-
-export const getItemsFeatured = async () => {
-  const response = await getItems();
-  // console.log(response.data.featured.entries);
-  return response.data.featured.entries.sort((a: any, b: any) => b.section.index - a.section.index);
-};

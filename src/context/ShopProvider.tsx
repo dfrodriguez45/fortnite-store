@@ -1,7 +1,7 @@
 import React from 'react'
 import { adaptItemsDailyData } from '../adapters';
 import { Item } from '../models';
-import { getItemsDaily, getItemsFeatured } from '../services';
+import { getItemsDaily } from '../services';
 interface ShopProviderProps {
   children: React.ReactNode;
 }
@@ -11,20 +11,16 @@ export const ShopContext = React.createContext({} as any)
 const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
 
   const [daily, setDaily] = React.useState<Item[]>([]);
-  const [featured, setFeatured] = React.useState<Item[]>([]);
 
   const [loading, setLoading] = React.useState<boolean>(true);
   const [remainingTime, setRemainingTime] = React.useState<string>('');
 
   async function getItems() {
     const dailyData = await getItemsDaily();
-    const featuredData = await getItemsFeatured();
 
     const dailyItems = adaptItemsDailyData(dailyData);
-    const featuredItems = adaptItemsDailyData(featuredData);
 
     setDaily(dailyItems);
-    setFeatured(featuredItems);
   }
 
   function getTime() {
@@ -63,7 +59,6 @@ const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
   return (
     <ShopContext.Provider value={{
       daily,
-      featured,
       loading,
       remainingTime
     }}>

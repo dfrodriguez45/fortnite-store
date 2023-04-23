@@ -2,14 +2,13 @@ import React from 'react';
 import { CgSandClock } from "react-icons/cg";
 
 import './App.css';
-import { DailyShop, FeaturedShop, LoadingShop } from './components';
+import { DailyShop, LoadingShop } from './components';
 import { ShopContext } from './context';
 
 function App() {
 
   const {
     daily,
-    featured,
     loading,
     remainingTime
   } = React.useContext(ShopContext);
@@ -23,7 +22,6 @@ function App() {
         {loading ? <LoadingShop /> : (
           <>
             <DailyShop data={daily} />
-            <FeaturedShop data={featured} />
           </>
         )}
       </div>

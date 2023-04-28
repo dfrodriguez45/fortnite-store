@@ -3,7 +3,7 @@ import { CgSandClock } from "react-icons/cg";
 
 import './App.css';
 import { DailyShop, LoadingShop } from './components';
-import { ShopContext } from './context';
+import ShopContext from './context/shop/ShopContext';
 
 function App() {
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import { adaptItemsDailyData } from '../adapters';
-import { Item } from '../models';
-import { getItemsDaily } from '../services';
+
+import { adaptItemsDailyData } from '../../adapters';
+import { Item } from '../../models';
+import { getItemsDaily } from '../../services';
+import ShopContext from './ShopContext';
 interface ShopProviderProps {
   children: React.ReactNode;
 }
-
-export const ShopContext = React.createContext({} as any)
 
 const ShopProvider: React.FC<ShopProviderProps> = ({ children }) => {
 

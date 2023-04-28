@@ -1,1 +1,2 @@
-export * from './ShopProvider';
+export * from './shop/ShopContext';
+export * from './shop/ShopProvider';

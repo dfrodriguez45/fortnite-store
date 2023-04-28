@@ -29,6 +29,18 @@ html {
   background: #6b7280;
 }
 
+.bg-size {
+  background-size: 60rem 60rem;
+}
+
+.gaminglegends {
+  @apply bg-rose-500;
+}
+
+.idols {
+  @apply bg-blue-500;
+}
+
 .legendary {
   @apply bg-yellow-500;
 }
@@ -38,9 +50,62 @@ html {
 }
 
 .rare {
-  @apply bg-cyan-500;
+  @apply bg-cyan-300;
 }
 
 .uncommon {
   @apply bg-lime-500;
+}
+
+.common {
+  @apply bg-gray-500;
+}
+
+img.gaminglegends {
+  background-image: url('assets/images/background_gaminglegends.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
+}
+
+img.idols {
+  background-image: url('assets/images/background_idols.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
+}
+
+img.legendary {
+  background-image: url('assets/images/background_legendary.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
+}
+
+img.epic {
+  background-image: url('assets/images/background_epic.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
+}
+
+img.rare {
+  background-image: url('assets/images/background_rare.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
+}
+
+img.uncommon {
+  background-image: url('assets/images/background_uncommon.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
+}
+
+img.common {
+  background-image: url('assets/images/background_common.jpg');
+  background-size: cover;
+  background-position: center;
+  @apply bg-size;
 }

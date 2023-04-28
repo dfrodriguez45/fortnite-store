@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import ShopProvider from './context/ShopProvider';
+import ShopProvider from './context/shop/ShopProvider'
 import './index.css'
 import './normalize.css';
 

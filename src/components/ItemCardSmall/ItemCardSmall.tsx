@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item } from '../../models';
+import { Item } from '../../types';
 import styles from './styles/ItemCardSmall.module.css';
 export interface ItemCardSmallProps {
 	item: Item,

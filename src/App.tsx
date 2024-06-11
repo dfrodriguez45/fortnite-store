@@ -30,13 +30,13 @@ function App() {
       case "outfit":
         return "translate-x-[5.7rem] w-[7rem]";
       case "emote":
-        return "translate-x-[14rem] w-[5.7rem]";
+        return "translate-x-[14rem] w-[5.5rem]";
       case "pickaxe":
-        return "translate-x-[21.1rem] w-[4.2rem]";
+        return "translate-x-[20.9rem] w-[4.2rem]";
       case "backpack":
-        return "translate-x-[26.8rem] w-[6.8rem]";
+        return "translate-x-[26.5rem] w-[6.8rem]";
       case "glider":
-        return "translate-x-[35rem] w-[9rem]";
+        return "translate-x-[34.8rem] w-[9rem]";
     }
   }
 
@@ -92,7 +92,7 @@ function App() {
                 } font-bold w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("emote")}
               >
-                EMOTES
+                GESTOS
               </button>
               <button
                 type="button"

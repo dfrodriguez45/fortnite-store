@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import { bundleExists } from '../utils';
 import { adaptBundle } from '../adapters/bundleAdapter';
+import { adaptItem } from '../adapters/itemAdapter';
 
 const API_URL = 'https://fortnite-api.com/v2/shop/br?language=es-419';
 
@@ -24,4 +25,14 @@ export async function getBundles() {
       return adaptBundle(entry);
       })
     .filter((bundle: any) => bundle !== null);
+}
+
+export async function getItems() {
+  const data = await getData();
+  return data.featured.entries
+    .map((entry: any) => {
+      if (bundleExists(entry.bundle)) return null;
+      return adaptItem(entry);
+    })
+    .filter((item: any) => item !== null);
 }

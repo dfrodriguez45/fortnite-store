@@ -2,7 +2,7 @@ export type Item = {
     id: string
     name: string
     images: {
-        items: string
+        item: string
         background: string
     }
     price: number

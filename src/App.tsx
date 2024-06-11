@@ -27,7 +27,7 @@ function App() {
             >
               <img src={bundle.images.items} alt={bundle.name} className="flex-1" />
               <div className='bg-gray-800 w-full'>
-                {bundle.name.length > 20 ?
+                {bundle.name.length > 30 ?
                   (
                     <Marquee direction="left" speed={50} delay={0} pauseOnHover>
                       <h3 className='text-white text-lg font-bold text-center pt-5 pb-3 whitespace-nowrap w-full'>{bundle.name.toUpperCase()}</h3>

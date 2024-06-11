@@ -16,7 +16,7 @@ export default function ItemCard({ item }: Props) {
     >
       <img src={item.images.item} alt={item.name} className="flex-1" />
       <div className="bg-gray-800 w-full">
-        {item.name.length > 10 ? (
+        {item.name.length > 30 ? (
           <Marquee direction="left" speed={30} delay={0} pauseOnHover>
             <h3 className="text-white md:text-lg text-sm font-bold text-center pt-5 pb-3 whitespace-nowrap w-full">
               {item.name.toUpperCase()}

@@ -9,8 +9,7 @@ type Props = {
 export default function BundleCard({bundle}: Props) {
   return (
     <div
-      key={bundle.id}
-      className="col-span-1 rounded-lg overflow-hidden bg-cover bg-center w-full relative bg-blue-500 flex flex-col"
+      className="col-span-1 rounded-lg overflow-hidden bg-cover bg-center w-full relative bg-blue-500 flex flex-col shadow-md shadow-gray-800"
       style={{
         backgroundImage: `url(${bundle.images.background})`,
       }}
@@ -18,13 +17,13 @@ export default function BundleCard({bundle}: Props) {
       <img src={bundle.images.items} alt={bundle.name} className="flex-1" />
       <div className="bg-gray-800 w-full">
         {bundle.name.length > 30 ? (
-          <Marquee direction="left" speed={50} delay={0} pauseOnHover>
-            <h3 className="text-white text-lg font-bold text-center pt-5 pb-3 whitespace-nowrap w-full">
+          <Marquee direction="left" speed={30} delay={0} pauseOnHover>
+            <h3 className="text-white md:text-lg text-sm font-bold text-center pt-5 pb-3 whitespace-nowrap w-full">
               {bundle.name.toUpperCase()}
             </h3>
           </Marquee>
         ) : (
-          <h3 className="text-white text-lg font-bold text-center pt-5 pb-3">
+          <h3 className="text-white md:text-lg text-sm font-bold text-center pt-5 pb-3">
             {bundle.name.toUpperCase()}
           </h3>
         )}

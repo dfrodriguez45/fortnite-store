@@ -9,8 +9,7 @@ type Props = {
 export default function ItemCard({ item }: Props) {
   return (
     <div
-      key={item.id}
-      className="col-span-1 rounded-lg overflow-hidden bg-cover bg-center w-full relative bg-blue-500 flex flex-col"
+      className="col-span-1 rounded-lg overflow-hidden bg-cover bg-center w-full relative bg-blue-500 flex flex-col shadow-md shadow-gray-800"
       style={{
         backgroundImage: `url(${item.images.background})`,
       }}
@@ -19,12 +18,12 @@ export default function ItemCard({ item }: Props) {
       <div className="bg-gray-800 w-full">
         {item.name.length > 10 ? (
           <Marquee direction="left" speed={30} delay={0} pauseOnHover>
-            <h3 className="text-white text-lg font-bold text-center pt-5 pb-3 whitespace-nowrap w-full">
+            <h3 className="text-white md:text-lg text-sm font-bold text-center pt-5 pb-3 whitespace-nowrap w-full">
               {item.name.toUpperCase()}
             </h3>
           </Marquee>
         ) : (
-          <h3 className="text-white text-lg font-bold text-center pt-5 pb-3">
+          <h3 className="text-white md:text-lg text-sm font-bold text-center pt-5 pb-3">
             {item.name.toUpperCase()}
           </h3>
         )}

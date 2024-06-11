@@ -40,7 +40,7 @@ function App() {
                 }
                 <div className='flex flex-row gap-2 justify-end items-center bg-gray-900 overflow-clip h-7'>
                   <p className='text-lg font-primary text-center'>{bundle.price}</p>
-                  <img loading="lazy" src="https://fortnite-api.com/images/vbuck.png" alt='paVos' className='w-10 h-10 inline-block' />
+                  <img src="https://fortnite-api.com/images/vbuck.png" alt='paVos' className='w-10 h-10 inline-block' />
                 </div>
               </div>  
             </div>

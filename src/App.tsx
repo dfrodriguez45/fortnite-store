@@ -81,9 +81,9 @@ function App() {
         </span>
       </h1>
       <div className="flex gap-10 relative text-center">
-        <button type="button" className={`${currentSection == 'bundles' ? "text-black" : "text-white"} font-bold w-full cursor-pointer`}
+        <button type="button" className={`${currentSection == 'bundles' ? "text-black delay-300" : "text-white"} font-bold w-full cursor-pointer transition-all`}
         onClick={() => handleChangeSection('bundles')}>LOTES</button>
-        <button type="button" className={`${currentSection == 'items' ? "text-black" : "text-white"} font-bold w-full cursor-pointer`}
+        <button type="button" className={`${currentSection == 'items' ? "text-black delay-300" : "text-white"} font-bold w-full cursor-pointer transition-all`}
         onClick={() => handleChangeSection('items')}>ITEMS</button>
         <span className={`absolute rounded-full bg-white h-6 w-24 -z-10 transform ${currentSection == 'bundles' ? "-translate-x-5" : "translate-x-[4.5rem]"} transition-all duration-500`}></span>
       </div>

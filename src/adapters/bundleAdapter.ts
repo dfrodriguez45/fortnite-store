@@ -1,4 +1,3 @@
-
 export function adaptBundle(entry: any) {
     return {
         id: entry.offerId,

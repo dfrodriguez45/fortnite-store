@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
 
 import BundleCard from "./components/BundleCard";
 import ItemCard from "./components/ItemCard";
@@ -13,6 +14,8 @@ function App() {
     currentItemSection,
     countItems,
   } = useFilter(items);
+
+  const topRef = useRef<HTMLHeadingElement>(null);
 
   const [currentSection, setCurrentSection] = useState("bundles");
 
@@ -144,9 +147,13 @@ function App() {
     }
   }
 
+  function handleScrollToTop() {
+    topRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <div className="p-4 flex flex-col gap-4 items-center min-h-dvh overflow-hidden">
-      <h1 className="flex flex-col">
+      <h1 ref={topRef} className="flex flex-col">
         <span className="text-3xl text-center font-bold">Tienda</span>
         <span className="text-lg text-center animate-slidein700 opacity-0">
           {day}
@@ -180,6 +187,13 @@ function App() {
         />
       </div>
       {handleSectionContent()}
+      <button
+        type="button"
+        onClick={handleScrollToTop}
+        className="fixed bottom-4 right-4 p-4 rounded-full bg-blue-500 text-white shadow-md shadow-gray-800 animate-bounce"
+      >
+        <FaArrowUp size={24} />
+      </button>
     </div>
   );
 }

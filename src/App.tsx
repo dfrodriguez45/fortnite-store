@@ -1,42 +1,39 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import BundleCard from "./components/BundleCard";
 import ItemCard from "./components/ItemCard";
-import { getBundles, getDay, getItems } from "./services";
-import type { Bundle } from "./types/bundleType";
-import type { Item } from "./types/itemType";
+import useFetch from "./hooks/useFetch";
+import useFilter from "./hooks/useFilter";
 
 function App() {
-  const [bundles, setBundles] = useState<Bundle[]>([]);
-  const [items, setItems] = useState<Item[]>([]);
-  const [itemsFiltered, setItemsFiltered] = useState<Item[]>([])
-  const [day, setDay] = useState<string>("");
+  const { bundles, items, day } = useFetch();
+  const {
+    itemsFiltered,
+    handleChangeItemSection,
+    currentItemSection,
+    countItems,
+  } = useFilter(items);
 
   const [currentSection, setCurrentSection] = useState("bundles");
-  const [currentItemSection, setCurrentItemSection] = useState("all");
 
   function handleChangeSection(section: string) {
     setCurrentSection(section);
   }
 
-  function handleChangeItemSection(section: string) {
-    setCurrentItemSection(section);
-  }
-
   function translateTo(itemSection: string) {
     switch (itemSection) {
       case "all":
-        return "-translate-x-[0.6rem] w-[5rem]";
+        return "-translate-x-[0.6rem] w-[7rem]";
       case "outfit":
-        return "translate-x-[5.7rem] w-[7rem]";
+        return "translate-x-[7.7rem] w-[9.5rem]";
       case "emote":
-        return "translate-x-[14rem] w-[5.5rem]";
+        return "translate-x-[18.5rem] w-[6.9rem]";
       case "pickaxe":
-        return "translate-x-[20.9rem] w-[4.2rem]";
+        return "translate-x-[26.9rem] w-[6.5rem]";
       case "backpack":
-        return "translate-x-[26.5rem] w-[6.8rem]";
+        return "translate-x-[34.8rem] w-[8.2rem]";
       case "glider":
-        return "translate-x-[34.8rem] w-[9rem]";
+        return "translate-x-[44.4rem] w-[10.8rem]";
     }
   }
 
@@ -58,7 +55,7 @@ function App() {
         return items.length > 0 ? (
           <>
             <div
-              className="flex flex-nowrap items-center justify-start w-full md:w-auto overflow-x-auto gap-10 relative text-center p-3"
+              className="flex flex-nowrap items-center justify-start w-full lg:w-auto overflow-x-auto gap-10 relative text-center p-3"
               style={{ scrollbarWidth: "none" }}
             >
               <button
@@ -67,10 +64,10 @@ function App() {
                   currentItemSection == "all"
                     ? "text-black delay-300"
                     : "text-white"
-                } font-bold w-full cursor-pointer transition-all`}
+                } font-bold text-nowrap w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("all")}
               >
-                TODOS
+                TODOS ({countItems.all})
               </button>
               <button
                 type="button"
@@ -78,10 +75,10 @@ function App() {
                   currentItemSection == "outfit"
                     ? "text-black delay-300"
                     : "text-white"
-                } font-bold w-full cursor-pointer transition-all`}
+                } font-bold text-nowrap w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("outfit")}
               >
-                ATUENDOS
+                ATUENDOS ({countItems.outfit})
               </button>
               <button
                 type="button"
@@ -89,10 +86,10 @@ function App() {
                   currentItemSection == "emote"
                     ? "text-black delay-300"
                     : "text-white"
-                } font-bold w-full cursor-pointer transition-all`}
+                } font-bold text-nowrap w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("emote")}
               >
-                GESTOS
+                GESTOS ({countItems.emote})
               </button>
               <button
                 type="button"
@@ -100,10 +97,10 @@ function App() {
                   currentItemSection == "pickaxe"
                     ? "text-black delay-300"
                     : "text-white"
-                } font-bold w-full cursor-pointer transition-all`}
+                } font-bold text-nowrap w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("pickaxe")}
               >
-                PICOS
+                PICOS ({countItems.pickaxe})
               </button>
               <button
                 type="button"
@@ -111,10 +108,10 @@ function App() {
                   currentItemSection == "backpack"
                     ? "text-black delay-300"
                     : "text-white"
-                } font-bold w-full cursor-pointer transition-all`}
+                } font-bold text-nowrap w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("backpack")}
               >
-                MOCHILAS
+                MOCHILAS ({countItems.backpack})
               </button>
               <button
                 type="button"
@@ -122,10 +119,10 @@ function App() {
                   currentItemSection == "glider"
                     ? "text-black delay-300"
                     : "text-white"
-                } font-bold w-full cursor-pointer transition-all`}
+                } font-bold text-nowrap w-full cursor-pointer transition-all`}
                 onClick={() => handleChangeItemSection("glider")}
               >
-                PLANEADORES
+                PLANEADORES ({countItems.glider})
               </button>
               <span
                 className={`absolute rounded-full bg-white h-6 w-24 -z-10 transform ${translateTo(
@@ -146,44 +143,6 @@ function App() {
         );
     }
   }
-
-  useEffect(() => {
-    getBundles().then((bundles) => setBundles(bundles));
-    getItems().then((items) => setItems(items));
-    getDay().then((day) =>
-      setDay(
-        new Date(day).toLocaleDateString("es-419", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      )
-    );
-  }, []);
-
-  useEffect(() => {
-    switch (currentItemSection) {
-      case "all":
-        setItemsFiltered(items);
-        break;
-      case "outfit":
-        setItemsFiltered(items.filter((item) => item.type === "outfit"));
-        break;
-      case "emote":
-        setItemsFiltered(items.filter((item) => item.type === "emote"));
-        break;
-      case "pickaxe":
-        setItemsFiltered(items.filter((item) => item.type === "pickaxe"));
-        break;
-      case "backpack":
-        setItemsFiltered(items.filter((item) => item.type === "backpack"));
-        break;
-      case "glider":
-        setItemsFiltered(items.filter((item) => item.type === "glider"));
-        break;
-    }
-  }, [currentItemSection, items]);
 
   return (
     <div className="p-4 flex flex-col gap-4 items-center min-h-dvh overflow-hidden">

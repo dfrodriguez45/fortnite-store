@@ -26,17 +26,17 @@ function App() {
   function translateTo(itemSection: string) {
     switch (itemSection) {
       case "all":
-        return "-translate-x-[0.6rem] w-[7rem]";
+        return "-translate-x-[0.8rem] w-[8rem]";
       case "outfit":
-        return "translate-x-[7.7rem] w-[9.5rem]";
+        return "translate-x-[8.3rem] w-[9.5rem]";
       case "emote":
-        return "translate-x-[18.5rem] w-[6.9rem]";
+        return "translate-x-[19.3rem] w-[6.9rem]";
       case "pickaxe":
-        return "translate-x-[26.9rem] w-[6.5rem]";
+        return "translate-x-[27.6rem] w-[6.5rem]";
       case "backpack":
-        return "translate-x-[34.8rem] w-[8.2rem]";
+        return "translate-x-[35.7rem] w-[8.2rem]";
       case "glider":
-        return "translate-x-[44.4rem] w-[10.8rem]";
+        return "translate-x-[45.4rem] w-[10.8rem]";
     }
   }
 

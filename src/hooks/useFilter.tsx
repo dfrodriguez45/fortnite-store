@@ -1,68 +1,110 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+
+import { Bundle } from "../types/bundleType";
+import { Detail } from "../types/detailType";
 import { Item } from "../types/itemType";
+import { slugify } from "../utils";
 
-const useFilter = (items: Item[]) => {
-  const [itemsFiltered, setItemsFiltered] = useState<Item[]>([]);
-  const [currentItemSection, setCurrentItemSection] = useState("all");
-  const [countItems, setCountItems] = useState<{
-    all: number;
-    outfit: number;
-    emote: number;
-    pickaxe: number;
-    backpack: number;
-    glider: number;
-  }>({
-    all: 0,
-    outfit: 0,
-    emote: 0,
-    pickaxe: 0,
-    backpack: 0,
-    glider: 0,
-  });
+// Orden fijo para que los filtros no bailen de un día a otro
+const CATEGORY_LABELS: Record<string, string> = {
+  outfit: "Atuendos",
+  emote: "Gestos",
+  pickaxe: "Picos",
+  backpack: "Mochilas",
+  glider: "Planeadores",
+  wrap: "Papeles",
+  shoe: "Calzado",
+  sidekick: "Compañeros",
+  instrument: "Instrumentos",
+  emoji: "Emoticonos",
+  spray: "Aerosoles",
+  contrail: "Estelas",
+  loadingscreen: "Pantallas de carga",
+  music: "Música",
+};
+const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
 
-  function handleChangeItemSection(section: string) {
-    setCurrentItemSection(section);
-  }
+export type ShopSection = {
+  id: string;
+  name: string;
+  order: number;
+  accent: string;
+  entries: Detail[];
+};
 
-  useEffect(() => {
-    switch (currentItemSection) {
-      case "all":
-        setItemsFiltered(items);
-        break;
-      case "outfit":
-        setItemsFiltered(items.filter((item) => item.type === "outfit"));
-        break;
-      case "emote":
-        setItemsFiltered(items.filter((item) => item.type === "emote"));
-        break;
-      case "pickaxe":
-        setItemsFiltered(items.filter((item) => item.type === "pickaxe"));
-        break;
-      case "backpack":
-        setItemsFiltered(items.filter((item) => item.type === "backpack"));
-        break;
-      case "glider":
-        setItemsFiltered(items.filter((item) => item.type === "glider"));
-        break;
+function layoutOf(entry: Detail) {
+  return entry.kind === "bundle" ? entry.bundle : entry.item;
+}
+
+const useFilter = (bundles: Bundle[], items: Item[]) => {
+  const [currentFilter, setCurrentFilter] = useState("all");
+
+  const categories = useMemo(() => {
+    const counts = new Map<string, { label: string; count: number }>();
+    for (const item of items) {
+      const category = counts.get(item.type);
+      if (category) category.count++;
+      else
+        counts.set(item.type, {
+          label: CATEGORY_LABELS[item.type] ?? item.typeLabel,
+          count: 1,
+        });
     }
-  }, [currentItemSection, items]);
 
-  useEffect(() => {
-    setCountItems({
-      all: items.length,
-      outfit: items.filter((item) => item.type === "outfit").length,
-      emote: items.filter((item) => item.type === "emote").length,
-      pickaxe: items.filter((item) => item.type === "pickaxe").length,
-      backpack: items.filter((item) => item.type === "backpack").length,
-      glider: items.filter((item) => item.type === "glider").length,
-    });
-  }, [items]);
+    const rank = (type: string) => {
+      const index = CATEGORY_ORDER.indexOf(type);
+      return index === -1 ? CATEGORY_ORDER.length : index;
+    };
+
+    return [
+      { value: "all", label: "Todo", count: bundles.length + items.length },
+      { value: "bundle", label: "Lotes", count: bundles.length },
+      ...[...counts]
+        .sort(([a], [b]) => rank(a) - rank(b))
+        .map(([value, { label, count }]) => ({ value, label, count })),
+    ].filter((category) => category.count > 0);
+  }, [bundles, items]);
+
+  // Agrupa como la tienda del juego: una sección por colección, en el orden que da la API
+  const sections = useMemo(() => {
+    const entries: Detail[] = [
+      ...(currentFilter === "all" || currentFilter === "bundle"
+        ? bundles.map((bundle) => ({ kind: "bundle" as const, bundle }))
+        : []),
+      ...items
+        .filter((item) => currentFilter === "all" || item.type === currentFilter)
+        .map((item) => ({ kind: "item" as const, item })),
+    ];
+
+    const groups = new Map<string, ShopSection>();
+    for (const entry of entries) {
+      const { section, accent } = layoutOf(entry);
+      const group = groups.get(section.name) ?? {
+        id: `seccion-${slugify(section.name)}`,
+        name: section.name,
+        order: section.order,
+        accent,
+        entries: [],
+      };
+      group.entries.push(entry);
+      groups.set(section.name, group);
+    }
+
+    for (const group of groups.values()) {
+      group.entries.sort(
+        (a, b) =>
+          layoutOf(b).sortPriority - layoutOf(a).sortPriority ||
+          layoutOf(b).tileSize - layoutOf(a).tileSize
+      );
+    }
+    return [...groups.values()].sort((a, b) => a.order - b.order);
+  }, [bundles, items, currentFilter]);
 
   return {
-    itemsFiltered,
-    handleChangeItemSection,
-    currentItemSection,
-    countItems,
+    sections,
+    handleChangeFilter: setCurrentFilter,
+    currentFilter,
+    categories,
   };
 };
 

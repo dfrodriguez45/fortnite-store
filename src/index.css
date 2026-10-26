@@ -1,26 +1,206 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Barlow", ui-sans-serif, system-ui, sans-serif;
 
+  --color-night: #0c0a1d;
+  --color-panel: #161331;
+  --color-panel-2: #221d47;
+  --color-volt: #ffe14a;
+  --color-volt-soft: #fff09c;
+  --color-pulse: #7b5cff;
+  --color-sky: #3cc3ff;
+
+  --shadow-ring: 0 0 0 1px rgb(255 255 255 / 0.1);
+  --shadow-ring-strong: 0 0 0 2px rgb(255 255 255 / 0.75);
+
+  --animate-enter: fade-in 300ms ease-out both;
+  --animate-reel: reel 240ms linear infinite;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+      filter: blur(4px);
+    }
+  }
+
+  @keyframes reel {
+    to {
+      transform: translateY(-50%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-enter {
+    animation-name: fade-in-up;
+  }
+}
 
 html {
-  @apply font-montserrat bg-gradient-to-t from-slate-950 to-slate-900 text-white min-h-dvh;
+  color-scheme: dark;
+  scrollbar-color: var(--color-panel-2) var(--color-night);
 }
 
-::-webkit-scrollbar {
-  width: 0.5rem;
+body {
+  @apply bg-night font-sans text-white antialiased;
 }
 
-::-webkit-scrollbar-track {
-  background: #1f2937;
+/* Luces de escenario fijas detrás de todo, sin repintar al hacer scroll */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 10% 0%, rgb(123 92 255 / 0.28), transparent 70%),
+    radial-gradient(50% 40% at 95% 5%, rgb(60 195 255 / 0.16), transparent 70%);
 }
 
-::-webkit-scrollbar-thumb {
-  background: #4b5563;
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #6b7280;
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-volt);
+  outline-offset: 3px;
+}
+
+/* Entrada 300ms desde abajo, salida 150ms hacia arriba; con movimiento reducido solo opacidad */
+.detail-dialog,
+.detail-dialog::backdrop {
+  opacity: 0;
+  transition-property: opacity, display, overlay;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+.detail-dialog::backdrop {
+  background-color: oklch(0.12 0.04 285 / 0.75);
+}
+
+.detail-dialog[open],
+.detail-dialog[open]::backdrop {
+  opacity: 1;
+  transition-duration: 300ms;
+}
+
+@starting-style {
+  .detail-dialog[open],
+  .detail-dialog[open]::backdrop {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .detail-dialog {
+    translate: 0 -12px;
+    filter: blur(4px);
+    transition-property: opacity, translate, filter, display, overlay;
+  }
+
+  .detail-dialog[open] {
+    translate: 0 0;
+    filter: blur(0);
+  }
+
+  @starting-style {
+    .detail-dialog[open] {
+      translate: 0 12px;
+      filter: blur(4px);
+    }
+  }
+}
+
+/* Inclinación 3D al estilo carta holográfica; useTilt solo la activa con ratón y sin movimiento reducido */
+@utility tilt {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition-property: transform, box-shadow;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+
+  &[data-tilting] {
+    transition-duration: 100ms;
+  }
+}
+
+@utility tilt-glare {
+  background: radial-gradient(
+    circle at var(--mx, 50%) var(--my, 50%),
+    rgb(255 255 255 / 0.35),
+    transparent 55%
+  );
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+
+  [data-tilting] > & {
+    opacity: 1;
+  }
+}
+
+@utility tilt-foil {
+  background: repeating-linear-gradient(
+    115deg,
+    #ff7ad9 0%,
+    #8a7dff 7%,
+    #5ee7ff 14%,
+    #9dff8a 21%,
+    #ffe66d 28%,
+    #ff7ad9 35%
+  );
+  background-size: 300% 300%;
+  background-position: var(--mx, 50%) var(--my, 50%);
+  mix-blend-mode: color-dodge;
+  opacity: 0;
+  transition: opacity 150ms ease-out;
+
+  [data-tilting] > & {
+    opacity: 0.3;
+  }
+}
+
+/* Estantería de una sección: columnas según el ancho del contenedor y filas con la proporción 3:4 de una casilla,
+   así las casillas anchas de la API ocupan 2, 3 o 4 columnas con la misma altura */
+@utility shelf {
+  --cols: 2;
+  --gap: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  grid-auto-rows: calc((100cqw - (var(--cols) - 1) * var(--gap)) / var(--cols) * 4 / 3);
+  grid-auto-flow: dense;
+  gap: var(--gap);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Etiqueta inclinada de la tienda: ¡Nuevo!, descuentos, último día */
+@utility tag {
+  @apply inline-flex -skew-x-8 items-center gap-1 rounded-md px-2 py-0.5 font-display text-sm font-extrabold tracking-wide uppercase italic;
+}
+
+@utility chip {
+  @apply inline-flex items-center gap-2 rounded-full bg-panel-2 px-3.5 py-1.5 text-sm font-semibold text-white/85;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
 }

@@ -1,6 +1,13 @@
-import { Item } from "./itemType"
+import { ShopLayout } from "./layoutType"
 
-export type Bundle = {
+export type BundleContent = {
+    id: string
+    name: string
+    typeLabel: string
+    image: string
+}
+
+export type Bundle = ShopLayout & {
     id: string
     name: string
     images: {
@@ -8,5 +15,8 @@ export type Bundle = {
         background: string
     }
     price: number
-    items: Item[]
+    regularPrice: number
+    outDate: string
+    contents: BundleContent[]
+    cosmeticIds: string[]
 }
